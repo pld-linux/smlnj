@@ -91,7 +91,6 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/smlnj/src/*/{Doc,doc}
 
 cp -f 110* docs/
 rm docs/110-README.html
-gzip -9nf docs/110* docs/*.ps docs/*.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT

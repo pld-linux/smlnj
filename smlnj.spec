@@ -21,7 +21,7 @@ Meta Language (SML). It is compilant with SML'97 specification. SML is
 functional language from ML family (like CAML).
 
 %description -l pl
-Standard ML z New Jersey jest najbardzieh popularn± implementacj±
+Standard ML z New Jersey jest najbardziej popularn± implementacj±
 jêzyka SML (Standard Meta Language). Jest ona kompatybilna ze
 specyfikacj± SML'97. SML jest jêzykiem funkcjonalnym z rodziny ML (jak
 CAML).

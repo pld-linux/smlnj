@@ -52,7 +52,7 @@ rep=$(echo "$PWD" | sed -e 's|.|/|g' | \
       sed -e "s|$(echo "%{_libdir}/smlnj" | \
 	      sed -e 's|.|.|g')\$|%{_libdir}/smlnj|")
 sed -e "s|$PWD|$rep|g" bin/.heap/sml-cm*-linux > \
-	$RPM_BUILD_ROOT/%{_libdir}/smlnj/bin/.heap/sml-cm*-linux
+	$RPM_BUILD_ROOT%{_libdir}/smlnj/bin/.heap/sml-cm*-linux
 
 ln -sf %{_libdir}/smlnj/bin/{ml-{burg,lex,yacc},sml,sml-cm} \
        $RPM_BUILD_ROOT%{_bindir}

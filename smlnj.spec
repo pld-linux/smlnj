@@ -2,7 +2,7 @@ Summary:	Standard ML of New Jersey
 Summary(pl):	Standard ML z New Jersey
 Name:		smlnj
 Version:	110.0.7
-Release:	3
+Release:	4
 Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
@@ -12,6 +12,7 @@ URL:		http://www.smlnj.org/
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+ExclusiveArch:	%{ix86}
 
 %description
 Standard ML of New Jersey is most popular implementation of Standard

@@ -9,7 +9,8 @@ Group:		Development/Languages
 Group(de):	Entwicklung/Sprachen
 Group(pl):	Programowanie/Jêzyki
 Source0:	%{name}-%{version}.tar.bz2
-URL:		http://cm.bell-labs.com/cm/cs/what/smlnj/
+URL:		http://www.smlnj.org/
+#URL:		http://cm.bell-labs.com/cm/cs/what/smlnj/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-dvips

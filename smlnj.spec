@@ -27,7 +27,7 @@ specyfikacj± SML'97. SML jest jêzykiem funkcjonalnym z rodziny ML (jak
 CAML).
 
 %prep
-%setup  -q
+%setup -q
 tar -xzf config.tar.Z
 
 %build
@@ -49,13 +49,13 @@ for f in $RPM_BUILD_ROOT%{_libdir}/smlnj/lib/*cm; do
 done
 # damn hacks..
 rep=$(echo "$PWD" | sed -e 's|.|/|g' | \
-      sed -e "s|$(echo "%{_libdir}/smlnj" | \
-	      sed -e 's|.|.|g')\$|%{_libdir}/smlnj|")
+	sed -e "s|$(echo "%{_libdir}/smlnj" | \
+	sed -e 's|.|.|g')\$|%{_libdir}/smlnj|")
 sed -e "s|$PWD|$rep|g" bin/.heap/sml-cm*-linux > \
 	$RPM_BUILD_ROOT%{_libdir}/smlnj/bin/.heap/sml-cm*-linux
 
 ln -sf %{_libdir}/smlnj/bin/{ml-{burg,lex,yacc},sml,sml-cm} \
-       $RPM_BUILD_ROOT%{_bindir}
+	$RPM_BUILD_ROOT%{_bindir}
 
 # documetation... gotta extract from src/ tree
 rm -rf docs

@@ -6,8 +6,6 @@ Release:	3
 Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
-Group(de):	Entwicklung/Sprachen
-Group(pl):	Programowanie/Jêzyki
 Source0:	%{name}-%{version}.tar.bz2
 URL:		http://www.smlnj.org/
 #URL:		http://cm.bell-labs.com/cm/cs/what/smlnj/

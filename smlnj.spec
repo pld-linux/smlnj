@@ -2,7 +2,7 @@ Summary:	Standard ML of New Jersey
 Summary(pl):	Standard ML z New Jersey
 Name:		smlnj
 Version:	110.0.7
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
@@ -44,6 +44,13 @@ for f in $RPM_BUILD_ROOT%{_libdir}/smlnj/lib/*cm; do
 	sed -e "s|$PWD|%{_libdir}/smlnj|" $f > $f.new
 	mv $f.new $f
 done
+# damn hacks..
+rep=$(echo "$PWD" | sed -e 's|.|/|g' | \
+      sed -e "s|$(echo "%{_libdir}/smlnj" | \
+	      sed -e 's|.|.|g')\$|%{_libdir}/smlnj|")
+sed -e "s|$PWD|$rep|g" bin/.heap/sml-cm*-linux > \
+	$RPM_BUILD_ROOT/%{_libdir}/smlnj/bin/.heap/sml-cm*-linux
+
 ln -sf %{_libdir}/smlnj/bin/{ml-{burg,lex,yacc},sml,sml-cm} \
        $RPM_BUILD_ROOT%{_prefix}/bin
 
@@ -99,6 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/smlnj/bin/.run
 %attr(755,root,root) %{_libdir}/smlnj/bin/.run/*
 %{_libdir}/smlnj/bin/*
-# I guess it is not needed...
-#%{_libdir}/smlnj/lib
-#%{_libdir}/smlnj/src
+%{_libdir}/smlnj/lib
+# some equivalent of make clean could be probably done here...
+# however this source is needed to comiple some programs
+%{_libdir}/smlnj/src

@@ -7,6 +7,7 @@ Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
 Source0:	%{name}-%{version}.tar.bz2
+# Source0-md5:	f3415cfa3ee7069c3bd02dce82f0431d
 URL:		http://www.smlnj.org/
 #URL:		http://cm.bell-labs.com/cm/cs/what/smlnj/
 BuildRequires:	tetex-latex

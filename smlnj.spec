@@ -2,7 +2,7 @@ Summary:	Standard ML of New Jersey
 Summary(pl):	Standard ML z New Jersey
 Name:		smlnj
 Version:	110.0.7
-Release:	2
+Release:	3
 Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc docs/*
-%attr(755,roor,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/smlnj
 %dir %{_libdir}/smlnj/bin
 %{_libdir}/smlnj/bin/.heap

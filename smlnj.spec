@@ -2,7 +2,7 @@ Summary:	Standard ML of New Jersey
 Summary(pl):	Standard ML z New Jersey
 Name:		smlnj
 Version:	110.57
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	BSD-like
 Group:		Development/Languages
@@ -51,6 +51,8 @@ URL:		http://www.smlnj.org/
 #URL:		http://cm.bell-labs.com/cm/cs/what/smlnj/
 BuildRequires:	tetex-latex
 BuildRequires:	tetex-dvips
+BuildRequires:	transfig
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	%{ix86} ppc sparc
 
@@ -93,63 +95,97 @@ CFLAGS="%{rpmcflags}" config/install.sh
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/smlnj
+install -d $RPM_BUILD_ROOT{%{_libdir}/smlnj,%{_bindir}}
+
 cp -a bin lib src $RPM_BUILD_ROOT%{_libdir}/smlnj
 chmod u+w -R $RPM_BUILD_ROOT%{_libdir}/smlnj
-sed \
-	-e "s|@BINDIR@|%{_libdir}/smlnj/bin|" \
-	-e "s|@VERSION@|`cat config/version`|" \
+
+sed -e "s|@SHELL@|/bin/sh|" \
+    -e "s|@BINDIR@|%{_libdir}/smlnj/bin|" \
+    -e "s|@VERSION@|`cat config/version`|" \
 	config/_run-sml > $RPM_BUILD_ROOT%{_libdir}/smlnj/bin/.run-sml
-install -d $RPM_BUILD_ROOT%{_bindir}
-for f in $RPM_BUILD_ROOT%{_libdir}/smlnj/lib/*cm; do
-	sed -e "s|$PWD|%{_libdir}/smlnj|" $f > $f.new
-	mv $f.new $f
-done
+
+find $RPM_BUILD_ROOT%{_libdir}/smlnj/lib/ -type f -name \*cm | \
+	xargs sed -i -e "s|$PWD|%{_libdir}/smlnj|g"
+
 # damn hacks..
 rep=$(echo "$PWD" | sed -e 's|.|/|g' | \
 	sed -e "s|$(echo "%{_libdir}/smlnj" | \
 	sed -e 's|.|.|g')\$|%{_libdir}/smlnj|")
-sed -e "s|$PWD|$rep|g" bin/.heap/sml-cm*-linux > \
-	$RPM_BUILD_ROOT%{_libdir}/smlnj/bin/.heap/sml-cm*-linux
+
+sed -i -e "s|$PWD|$rep|g" $RPM_BUILD_ROOT%{_libdir}/smlnj/bin/.heap/sml.*-linux
 
 ln -sf %{_libdir}/smlnj/bin/{ml-{burg,lex,yacc},sml,sml-cm} \
 	$RPM_BUILD_ROOT%{_bindir}
 
 # documetation... gotta extract from src/ tree
 rm -rf docs
-mkdir docs
+mkdir -p docs/{cm,MLRISC}
+
 # CM
+cd src/cm/Doc
+latex manual.tex
+dvips -o manual.ps manual.dvi
+mkdir HTML
+./mkhtml -dir HTML manual.tex
+cd -
 cp -f src/cm/Doc/manual.ps docs/cm.ps
-mkdir docs/cm
-cp -f src/cm/Doc/HTML/*.{html,css,gif} docs/cm
+cp -f src/cm/Doc/HTML/*.{html,css,png} docs/cm
+
 # CML
-cp -a src/cml/doc/HTML docs/cml
-cp -f src/cml/doc/Hardcopy/manual.ps docs/cml.ps
+#cd src/cml/doc
+#cd -
+#cp -a src/cml/doc/HTML docs/cml
+#cp -f src/cml/doc/Hardcopy/manual.ps docs/cml.ps
+
 # ml-burg
+cd src/ml-burg/doc
+transfig -L ps tree.fig
+make
+latex doc.tex
+dvips -o doc.ps doc.dvi
+cd -
 cp -f src/ml-burg/doc/doc.ps docs/ml-burg.ps
+
 # ml-lex
 cd src/ml-lex
 latex lexgen.tex
-dvips lexgen.dvi -o ml-lex.ps
-cd ../..
+dvips -o ml-lex.ps lexgen.dvi
+cd -
 cp -f src/ml-lex/ml-lex.ps docs/
 cp -f src/ml-lex/mlex_int.doc docs/ml-lex-int.txt
+
+# ml-nlffi-lib
+cd src/ml-nlffi-lib/Doc/manual
+latex nlffi.tex
+dvips -o nlffi.ps nlffi.dvi
+cd -
+cp -f src/ml-nlffi-lib/Doc/mini-tutorial.txt docs/nlffi-mini-tutorial.txt
+cp -f src/ml-nlffi-lib/Doc/manual/nlffi.ps docs/nlffi.ps
+
 # ml-yacc
 cd src/ml-yacc/doc
 latex mlyacc.tex
-dvips mlyacc.dvi -o ml-yacc.ps
-cd ../../..
-cp -f src/ml-yacc/doc/ml-yacc.ps docs/
+dvips -o mlyacc.ps mlyacc.dvi
+cd -
+cp -f src/ml-yacc/doc/mlyacc.ps docs/
 cp -f src/ml-yacc/doc/tech.doc docs/ml-yacc-tech.txt
 cp -a src/ml-yacc/examples docs/ml-yacc-examples
+
 # smlnj-lib
-cp -a src/smlnj-lib/Doc/HTML docs/smlnj-lib
+#cd src/smlnj-lib/Doc
+#cp -a HTML docs/smlnj-lib
+#cd -
+
+# MLRISC
+cd src/MLRISC/Doc
+make -C pictures
+make -C html
+cd -
+cp -a src/MLRISC/Doc/{graphics,pictures,html} docs/MLRISC/
 
 # get rid of docs from src/ tree...
 rm -rf $RPM_BUILD_ROOT%{_libdir}/smlnj/src/*/{Doc,doc}
-
-cp -f 110* docs/
-rm docs/110-README.html
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -162,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/smlnj/bin
 %{_libdir}/smlnj/bin/.heap
 %attr(755,root,root) %{_libdir}/smlnj/bin/.arch-n-opsys
+%attr(755,root,root) %{_libdir}/smlnj/bin/.link-sml
 %attr(755,root,root) %{_libdir}/smlnj/bin/.run-sml
 %dir %{_libdir}/smlnj/bin/.run
 %attr(755,root,root) %{_libdir}/smlnj/bin/.run/*

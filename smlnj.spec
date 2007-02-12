@@ -1,5 +1,5 @@
 Summary:	Standard ML of New Jersey
-Summary(pl):	Standard ML z New Jersey
+Summary(pl.UTF-8):   Standard ML z New Jersey
 Name:		smlnj
 Version:	110.57
 Release:	1
@@ -61,10 +61,10 @@ Standard ML of New Jersey is most popular implementation of Standard
 Meta Language (SML). It is compilant with SML'97 specification. SML is
 functional language from ML family (like CAML).
 
-%description -l pl
-Standard ML z New Jersey jest najbardziej popularn± implementacj±
-jêzyka SML (Standard Meta Language). Jest ona kompatybilna ze
-specyfikacj± SML'97. SML jest jêzykiem funkcjonalnym z rodziny ML (jak
+%description -l pl.UTF-8
+Standard ML z New Jersey jest najbardziej popularnÄ… implementacjÄ…
+jÄ™zyka SML (Standard Meta Language). Jest ona kompatybilna ze
+specyfikacjÄ… SML'97. SML jest jÄ™zykiem funkcjonalnym z rodziny ML (jak
 CAML).
 
 %prep

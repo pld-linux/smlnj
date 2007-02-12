@@ -1,5 +1,5 @@
 Summary:	Standard ML of New Jersey
-Summary(pl.UTF-8):   Standard ML z New Jersey
+Summary(pl.UTF-8):	Standard ML z New Jersey
 Name:		smlnj
 Version:	110.57
 Release:	1
